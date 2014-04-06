@@ -1,7 +1,7 @@
-<%-- 
-    Document   : index
+<%--
+    Document : index
     Created on : 21.3.2014, 18:57:55
-    Author     : saves
+    Author : saves
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

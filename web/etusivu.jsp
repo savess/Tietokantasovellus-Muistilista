@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:pohja pageTitle="Musitilista">
@@ -20,44 +21,60 @@
     <li><a href="kirjautuminen.html">Kirjaudu ulos</a></li>
   </ul>
   <div class="container">
-    <h1>Muistilista</h1>
-    <table class="table table-striped">
+    
+       
+      <table class="table table-striped">
       <thead>
         <tr>
           <th>Askare</th>
-          <th>Luokka</th>
           <th>Tärkeys</th>
+          <th>Luokka</th>
           <th></th>
-        
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Imuroi</td>
-          <td>Koti</td>
-          <td>1</td>
-         
-          <td><a href="luokkatietosivu.html"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Muokkaa</button></a></td>     
-        </tr>
-        <tr>
-          <td>Käy kaupassa</td>
-          <td>Koti</td>
-          <td>2</td>
-        
-          <td><a href="luokkatietosivu.html"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Muokkaa</button></a></td>
-        </tr>
-        <tr>
-          <td>Lenkille</td>
-          <td>Harrastukset</td> 
-          <td>2</td>
           
-          <td><a href="luokkatietosivu.html"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Muokkaa</button></a></td>
-        </tr>
-      </tbody>
+        
+           <c:choose>
+            <c:when test="${empty lista}">
+                <p>Muistilista on tyhjä</p>
+            </c:when>
+            <c:otherwise>
+          
+          
+          
+          <c:forEach var="askare" items="${lista}">
+                    <tr>
+                        
+                        <td id="projektitlista">${askare.nimi}<br>  </br> <a href="askaremuokkaus.jsp"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="askarepoisto.jsp"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
+                        <td id="projektitlista">${askare.tarkeys}</td> 
+                        <td id="projektitlista">${askare.luokka}</td>
+                        
+                       
+                    </tr>
+                    
+                    
+                    
+                </c:forEach>
+                    
+                    
+                     <td><a href="askareenlisays.jsp"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Lisää askare</button></a></td>   
+                    
+                    </c:otherwise>
+        </c:choose>
+                    
+                    
+          
+                    </tr>
+      </thead>
+     
     </table>
+                    
+                    
+      
+      
+        
   </div>
 </body>
         
 </html>
 
    </t:pohja>
+
