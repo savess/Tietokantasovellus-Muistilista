@@ -28,7 +28,7 @@ public class Yhteys {
           
             return null;
         }
-    } 
+    }
     
     // palauttaa käyttäjän nimen
     

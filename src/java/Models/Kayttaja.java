@@ -1,9 +1,9 @@
 package Models;
 
 /**
- *
- * @author saves
- */
+*
+* @author saves
+*/
 
 // Käyttäjän konstruktorit ja getterit sekä setteri
 
