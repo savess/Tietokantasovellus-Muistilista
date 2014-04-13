@@ -14,9 +14,9 @@
     
         <body>
   <ul class="nav nav-tabs">
-    <li class="active"><a href="Etusivu">Etusivu</a></li>
+    <li><a href="Etusivu">Etusivu</a></li>
     <li><a href="LuokkaListausServlet">Luokat</a></li>
-    <li><a href="TarkeysListausServlet">Tärkeysasteet</a></li>
+    <li class="active"><a href="TarkeysListausServlet">Tärkeysasteet</a></li>
     <li><a href="omasivu.html">Oma sivu</a></li>
     <li><a href="kirjautuminen.html">Kirjaudu ulos</a></li>
   </ul>
@@ -26,32 +26,32 @@
       <table class="table table-striped">
       <thead>
         <tr>
-          <th>Askare</th>
-          <th>Tärkeys</th>
-          <th>Luokka</th>
+          <th>Arvo</th>
+          <th>Selite</th>
+          <th>Tekijän nimi</th>
           <th></th>
           
         
            <c:choose>
             <c:when test="${empty lista}">
-                <p>Muistilista on tyhjä</p>
+                <p>Tärkeyslista on tyhjä</p>
             </c:when>
             <c:otherwise>
           
           
           
-          <c:forEach var="askare" items="${lista}">
+          <c:forEach var="tarkeys" items="${lista}">
                     <tr>
                         
                          
                         
                       
-                        <td id="askareetlista"<li><a href="AskareServlet?id=${askare.aid}">${askare.nimi}</a></li>
+                        <td id="tarkeyslista"<li><a href="TarkeysServlet?id=${tarkeys.tid}">${tarkeys.arvo}</a></li>
           
-          <br> </br> <a href="MuokkaaLuokkaa?id=${luokka.lid}">${Muokkaa}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="PoistaAskare?id=${askare.aid}">${Poista}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
+          <br> </br> <a href="MuokkaaTarkeytta?id=${tarkeys.tid}">${Muokkaa}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="PoistaTarkeys?id=${tarkeys.tid}">${Poista}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
           
-                        <td id="askareetlista">${askare.tarkeys}</td> 
-                        <td id="askareetlista">${askare.luokka}</td>
+                        <td id="tarkeyslista">${tarkeys.selite}</td> 
+                        <td id="tarekyslista">${tarkeys.knimi}</td>
                         
                        
                     </tr>
@@ -61,7 +61,7 @@
                 </c:forEach>
                     
                     
-                     <td><a href="LisaaAskareApu"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Lisää askare</button></a></td>   
+                     <td><a href="tarkeydenlisays.jsp"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Lisää tärkeys</button></a></td>   
                     
                     </c:otherwise>
         </c:choose>
@@ -83,4 +83,5 @@
 </html>
 
    </t:pohja>
+
 

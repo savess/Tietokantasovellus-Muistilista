@@ -6,11 +6,13 @@ package Models;
  */
 public class Askare {
     
+    private int aid;
     private String nimi;
-    private int tarkeys;
+    private String tarkeys;
     private String luokka;
 
-    public Askare(String nimi, int tarkeys, String luokka) {
+    public Askare(int aid, String nimi, String tarkeys, String luokka) {
+        this.aid = aid;
         this.nimi = nimi;
         this.tarkeys = tarkeys;
         this.luokka = luokka;
@@ -28,14 +30,20 @@ public class Askare {
     }
 
     
-  
-
-    
+    public Askare(int aid) {
+        this.aid = aid;
+    }
    
+  
+    
+    
+    public int getAid() {
+        return aid;
+    }
 
-    
-    
-    
+    public void setAid(int aid) {
+        this.aid = aid;
+    }
 
    
     
@@ -47,10 +55,10 @@ public class Askare {
         this.nimi = nimi;
     }
     
-    public int getTarkeys() {
+    public String getTarkeys() {
          return tarkeys;
     }
-     public void setTarkeys(int tarkeys) {
+     public void setTarkeys(String tarkeys) {
         this.tarkeys = tarkeys; 
      }
      
@@ -60,6 +68,8 @@ public class Askare {
      public void setLuokka(String luokka) {
         this.luokka = luokka; 
      }
+     
+     
 }
 
 

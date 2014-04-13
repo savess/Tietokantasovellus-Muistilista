@@ -14,44 +14,44 @@
     
         <body>
   <ul class="nav nav-tabs">
-    <li class="active"><a href="Etusivu">Etusivu</a></li>
+    <li><a href="Etusivu">Etusivu</a></li>
     <li><a href="LuokkaListausServlet">Luokat</a></li>
     <li><a href="TarkeysListausServlet">Tärkeysasteet</a></li>
     <li><a href="omasivu.html">Oma sivu</a></li>
     <li><a href="kirjautuminen.html">Kirjaudu ulos</a></li>
   </ul>
   <div class="container">
-    
-       
+     
+     
       <table class="table table-striped">
       <thead>
         <tr>
-          <th>Askare</th>
-          <th>Tärkeys</th>
-          <th>Luokka</th>
+          <th>Nimi</th>
+          <th>Tekijän nimi</th>
+          <th>Luokan tunnus</th>
           <th></th>
           
         
            <c:choose>
             <c:when test="${empty lista}">
-                <p>Muistilista on tyhjä</p>
+                <p>Luokkaa ei ole</p>
             </c:when>
             <c:otherwise>
           
           
           
-          <c:forEach var="askare" items="${lista}">
+          <c:forEach var="luokka" items="${lista}">
                     <tr>
                         
                          
                         
                       
-                        <td id="askareetlista"<li><a href="AskareServlet?id=${askare.aid}">${askare.nimi}</a></li>
+                        <td id="luokkalista">${luokka.nimi}
           
-          <br> </br> <a href="MuokkaaLuokkaa?id=${luokka.lid}">${Muokkaa}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="PoistaAskare?id=${askare.aid}">${Poista}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
+            <br> </br> <a href="MuokkaaLuokkaa?id=${luokka.lid}">${Muokkaa}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="PoistaLuokka?id=${luokka.lid}">${Poista}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
           
-                        <td id="askareetlista">${askare.tarkeys}</td> 
-                        <td id="askareetlista">${askare.luokka}</td>
+                        <td id="luokkalista">${luokka.knimi}</td> 
+                        <td id="luokkalista">${luokka.lid}</td>
                         
                        
                     </tr>
@@ -61,20 +61,10 @@
                 </c:forEach>
                     
                     
-                     <td><a href="LisaaAskareApu"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Lisää askare</button></a></td>   
+                   
                     
                     </c:otherwise>
         </c:choose>
-                    
-                    
-          
-                    </tr>
-      </thead>
-     
-    </table>
-                    
-                    
-      
       
         
   </div>
@@ -83,4 +73,5 @@
 </html>
 
    </t:pohja>
+
 

@@ -14,15 +14,15 @@
     
         <body>
   <ul class="nav nav-tabs">
-    <li class="active"><a href="Etusivu">Etusivu</a></li>
+    <li><a href="Etusivu">Etusivu</a></li>
     <li><a href="LuokkaListausServlet">Luokat</a></li>
     <li><a href="TarkeysListausServlet">Tärkeysasteet</a></li>
     <li><a href="omasivu.html">Oma sivu</a></li>
     <li><a href="kirjautuminen.html">Kirjaudu ulos</a></li>
   </ul>
   <div class="container">
-    
-       
+     
+     
       <table class="table table-striped">
       <thead>
         <tr>
@@ -34,7 +34,7 @@
         
            <c:choose>
             <c:when test="${empty lista}">
-                <p>Muistilista on tyhjä</p>
+                <p>Askaretta ei ole</p>
             </c:when>
             <c:otherwise>
           
@@ -46,9 +46,9 @@
                          
                         
                       
-                        <td id="askareetlista"<li><a href="AskareServlet?id=${askare.aid}">${askare.nimi}</a></li>
+                        <td id="askareetlista">${askare.nimi}
           
-          <br> </br> <a href="MuokkaaLuokkaa?id=${luokka.lid}">${Muokkaa}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="PoistaAskare?id=${askare.aid}">${Poista}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
+          <br> </br> <a href="askaremuokkaus.jsp"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="askarepoisto.jsp"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
           
                         <td id="askareetlista">${askare.tarkeys}</td> 
                         <td id="askareetlista">${askare.luokka}</td>
@@ -61,20 +61,10 @@
                 </c:forEach>
                     
                     
-                     <td><a href="LisaaAskareApu"<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span> Lisää askare</button></a></td>   
+                   
                     
                     </c:otherwise>
         </c:choose>
-                    
-                    
-          
-                    </tr>
-      </thead>
-     
-    </table>
-                    
-                    
-      
       
         
   </div>

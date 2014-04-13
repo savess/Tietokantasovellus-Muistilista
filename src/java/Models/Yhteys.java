@@ -1,5 +1,8 @@
 package Models;
-
+/**
+ *
+ * @author saves
+ */
 import java.sql.*;
 
 // Luo tietokanta yhteyden ja muutamat metodit
