@@ -4,13 +4,14 @@
 <t:pohja pageTitle="Muistilista">
 <!DOCTYPE html>
 <html>
-   
+
+    
         <body>
   <ul class="nav nav-tabs">
     <li><a href="Etusivu">Etusivu</a></li>
     <li><a href="LuokkaListausServlet">Luokat</a></li>
     <li><a href="TarkeysListausServlet">Tärkeysasteet</a></li>
-    <li><a href="Omasivu">Oma sivu</a></li>
+   <li class="active"><a href="Omasivu">Oma sivu</a></li>
     <li><a href="KirjauduUlos">Kirjaudu ulos</a></li>
   </ul>
   <div class="container">
@@ -19,32 +20,33 @@
       <table class="table table-striped">
       <thead>
         <tr>
-          <th>Arvo</th>
-          <th>Selite</th>
-          <th>Tekijän nimi</th>
+          <th>Nimi</th>
+          <th>Tunnus</th>
+          <th>Askareita</th>
+          
           <th></th>
           
         
-           <c:choose>
+         
+      <c:choose>
             <c:when test="${empty lista}">
-                <p>Tärkeyttä ei ole</p>
+                <p>Askaretta ei ole</p>
             </c:when>
             <c:otherwise>
           
           
           
-          <c:forEach var="tarkeys" items="${lista}">
+          <c:forEach var="kayttaja" items="${lista}">
                     <tr>
                         
                          
                         
                       
-                        <td id="tarkeyslista">${tarkeys.arvo}
-          
-           <br> </br> <a href="MuokkaaTarkeytta?id=${tarkeys.tid}">${Muokkaa}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Muokkaa</button></a><a href="PoistaTarkeys?id=${tarkeys.tid}">${Poista}<button type="submit" class="btn btn-xs btn-default"><span class="col-md-offset-0 col-md-1"></span>Poista</button></a></td>
-          
-                        <td id="tarkeyslista">${tarkeys.selite}</td> 
-                        <td id="tarkeyslista">${tarkeys.knimi}</td>
+                        <td id="kayttajalista">${kayttaja.nimi}</td>
+                        <td id="kayttajalista">${tunnus}</td> 
+                        <td id="kayttajalista">${kayttaja.acount}</td>
+           
+                     
                         
                        
                     </tr>
@@ -52,7 +54,6 @@
                     
                     
                 </c:forEach>
-                    
                     
                    
                     
@@ -66,6 +67,4 @@
 </html>
 
    </t:pohja>
-
-
 

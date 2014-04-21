@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Tervetuloa Muistilista </h1>
-        <h2><a href="kirjautuminen.jsp">Sisään kirjautuminen</a></h2>
+        <h2><a href="kirjautuminen.jsp">Sisään kirjautumiseen</a></h2>
     </body>
 </html>

@@ -5,14 +5,7 @@
 <t:pohja pageTitle="Muistilista">
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/bootstrap-theme.css" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    
+
         <body>
   
   <div class="container">
@@ -30,7 +23,7 @@
                         
                         <c:forEach var="tarkeys" items="${lista}">
                             
-                         <option value="${tarkeys.tid}">${tarkeys.selite}</option>
+                         <option value="${tarkeys.tid}" name="tarkeys">${tarkeys.selite}</option>
                         
                          </c:forEach>
                          
@@ -40,7 +33,7 @@
                        
                         <c:forEach var="luokka" items="${listaa}">
                           
-                         <option value="${luokka.lid}">${luokka.nimi}</option>
+                         <option value="${luokka.lid}" name="luokka">${luokka.nimi}</option>
                          
                          </c:forEach>
                     </select>

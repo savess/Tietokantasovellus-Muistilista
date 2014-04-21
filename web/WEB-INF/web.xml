@@ -80,6 +80,22 @@
         <servlet-name>LisaaAskareApu</servlet-name>
         <servlet-class>Servlets.LisaaAskareApu</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MuokkaaAskaretta</servlet-name>
+        <servlet-class>Servlets.MuokkaaAskaretta</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MuokkaaAskaretta2</servlet-name>
+        <servlet-class>Servlets.MuokkaaAskaretta2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KirjauduUlos</servlet-name>
+        <servlet-class>Servlets.KirjauduUlos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Omasivu</servlet-name>
+        <servlet-class>Servlets.Omasivu</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Kirjautuminen</servlet-name>
         <url-pattern>/Kirjautuminen</url-pattern>
@@ -159,6 +175,22 @@
     <servlet-mapping>
         <servlet-name>LisaaAskareApu</servlet-name>
         <url-pattern>/LisaaAskareApu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MuokkaaAskaretta</servlet-name>
+        <url-pattern>/MuokkaaAskaretta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MuokkaaAskaretta2</servlet-name>
+        <url-pattern>/MuokkaaAskaretta2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KirjauduUlos</servlet-name>
+        <url-pattern>/KirjauduUlos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Omasivu</servlet-name>
+        <url-pattern>/Omasivu</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

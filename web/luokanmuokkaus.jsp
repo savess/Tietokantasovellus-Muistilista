@@ -4,14 +4,7 @@
 <t:pohja pageTitle="Muistilista">
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/bootstrap-theme.css" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    
+   
         <body>
   
             
@@ -36,11 +29,7 @@
           
           <c:forEach var="luokka" items="${lista}">
                    
-                    
-                    
-                    
-                    
-                        
+ 
                         <form name="muokkaa luokkaa"
                   action="${pageContext.request.contextPath}/MuokkaaLuokkaa2"
                   method="post">
@@ -56,8 +45,7 @@
                 </tr>
             </form>
                        
-                    
-                    
+             
                     
                     
                     

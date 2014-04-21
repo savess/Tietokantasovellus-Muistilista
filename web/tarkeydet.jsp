@@ -4,21 +4,14 @@
 <t:pohja pageTitle="Muistilista">
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="css/bootstrap.css" rel="stylesheet">
-        <link href="css/bootstrap-theme.css" rel="stylesheet">
-        <link href="css/main.css" rel="stylesheet">
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
     
         <body>
   <ul class="nav nav-tabs">
     <li><a href="Etusivu">Etusivu</a></li>
     <li><a href="LuokkaListausServlet">Luokat</a></li>
     <li class="active"><a href="TarkeysListausServlet">Tärkeysasteet</a></li>
-    <li><a href="omasivu.html">Oma sivu</a></li>
-    <li><a href="kirjautuminen.html">Kirjaudu ulos</a></li>
+    <li><a href="Omasivu">Oma sivu</a></li>
+    <li><a href="KirjauduUlos">Kirjaudu ulos</a></li>
   </ul>
   <div class="container">
     

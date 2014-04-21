@@ -15,9 +15,11 @@
     <body>
         
         <c:if test="${virheViesti != null}">
-  <div class="alert alert-danger">Tapahtui virhe ${virheViesti}</div>
+  <div class="alert alert-danger">Virhe: ${virheViesti}</div>
 </c:if>
-            
+             <c:if test="${viesti != null}">
+  <div class="alert alert-info"> Viesti: ${viesti}</div>
+</c:if>
         <div class="container">
             <c:if test="${pageError != null}">
                 <div class="alert alert-danger">${pageError}</div>
