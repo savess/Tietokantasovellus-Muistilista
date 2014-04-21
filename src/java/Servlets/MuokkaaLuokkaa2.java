@@ -15,7 +15,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// MuokkaaLuokkaa2 muokkaa luokkaa tietokannassa
+
 public class MuokkaaLuokkaa2 extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -32,40 +35,47 @@ public class MuokkaaLuokkaa2 extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
-        int id;
-        
-                
-         HttpSession session=request.getSession(false);
-
+        int id; 
+        HttpSession session=request.getSession(false);
+          
+           // tarkastetaan onko käyttäjä kirjautunut
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-            id = Integer.parseInt(idParam);
+            try {
+                id = Integer.parseInt(idParam);
+            
+                Listaus listaus = new Listaus();
+                Luokka luokka = new Luokka();
+            
+                String nimi = request.getParameter("nimi");
+                luokka.setNimi(request.getParameter("nimi"));
+            
+                    // jos ei anneta nimeä: virheviesti
+                    if ((nimi == null || nimi.equals(""))) {
+                        request.setAttribute("virheViesti", "Ei nimeä, muokkaus epäonnistui");
+                        dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
+                        dispatcher.forward(request, response);}
+                    
+                    // jos annetaan nimi muokataan luokkaa tietokantaan 
+                    // viesti onnistuneesta muokkauksesta Etusivulle siirryttäessä
+                    else if ((nimi!=null)){
+                            request.setAttribute("lista", listaus.muokkaaLuokkaa(nimi, id));
+                            request.setAttribute("viesti", "Luokkaa muokattu");
+                            dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
+                            dispatcher.forward(request, response); 
             
             
-             Listaus listaus = new Listaus();
-            Luokka luokka = new Luokka();
-            
-            String nimi = request.getParameter("nimi");
-            
-            luokka.setNimi(request.getParameter("nimi"));
-            
-             request.setAttribute("lista", listaus.muokkaaLuokkaa(nimi, id));
-             
-             RequestDispatcher dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
-                             dispatcher.forward(request, response);
+                }
             
             
-             
-            
-            
-        } finally {            
-            out.close();
-        }
+             } finally {            
+                      out.close();
+                 }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle 
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

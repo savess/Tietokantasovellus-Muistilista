@@ -16,9 +16,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
-// LisaaAskareApu hakee luokat ja tärkeydet lisäyssivun alasvetovalikoihin
+// KirjauduUlos kirjaa käyttäjän ulos
 
-    public class LisaaAskareApu extends HttpServlet {
+public class KirjauduUlos extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -35,33 +36,31 @@ import javax.servlet.http.HttpSession;
         
         HttpSession session=request.getSession(false);
         
-    
-        // tarkastetaan, että käyttäjä kirjautunut
-        // haetaan luokkien ja tärkyksien tiedot,
-        // jotka viedään lisäysivun alasvetovalikoihin
         
+        // tarkistaa onko käyttäjä kirjautunut,
+        // jos on poistaa tämän session
         if (session.getAttribute("kirjautunut")!=null) {
             
-             String tunnus = request.getParameter("kirjautunut");
-             Listaus listaus = new Listaus();
-
-             request.setAttribute("lista", listaus.listaaTarkeys(tunnus));
-             request.setAttribute("listaa", listaus.listaaLuokat(tunnus));
         
-            RequestDispatcher dispatcher = request.getRequestDispatcher("askareenlisays.jsp");
-            dispatcher.forward(request, response);
-            
-            
-            
+            request.getSession(false).invalidate();
+            request.setAttribute("viesti", "Kirjauduit ulos");
+            dispatcher = request.getRequestDispatcher("kirjautuminen.jsp");
+            dispatcher.forward(request, response);        
+           
         }
         
-        // jos käyttäjä ei ole krijautunut ohjataan krijautumissivulle
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumisivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }
         
+        
+        
      
+    
+        
     }
+      
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -104,4 +103,3 @@ import javax.servlet.http.HttpSession;
         return "Short description";
     }// </editor-fold>
 }
-

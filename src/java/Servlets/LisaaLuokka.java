@@ -15,7 +15,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// lisää luokan tietokantaan
+
 public class LisaaLuokka extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -37,35 +40,46 @@ public class LisaaLuokka extends HttpServlet {
                 
          HttpSession session=request.getSession(false);
 
+         // tarkastetaan onko käyttäjä kirjautnut
           if (session.getAttribute("kirjautunut")!=null) {
 
-            String tunnus = request.getParameter("kirjautunut");
+             String tunnus = (String) session.getAttribute("tunnus");
         
-        try {
+                 try {
             
+                    Listaus listaus = new Listaus();
+                    Luokka luokka = new Luokka();
             
+                    String nimi = request.getParameter("nimi");
+                    luokka.setNimi(request.getParameter("nimi"));
             
-             Listaus listaus = new Listaus();
-            Luokka luokka = new Luokka();
+                    // jos luokalla ei anneta nimeä: virheviesti
+                    if ((nimi == null || nimi.equals(""))) {
+                    request.setAttribute("virheViesti", "Et antanut luokalle nimeä, lisäys epäonnistui");
+                    dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
+                    dispatcher.forward(request, response);}
             
-            String nimi = request.getParameter("nimi");
+                    // jos luokalle annetaan nimi lisätään tämä tietokantaan 
+                    // viesti onnistuneesta lisäyksestä näytetään luokkalistaus sivulle mentäessä
+                    else if ((nimi!=null)){
             
-            luokka.setNimi(request.getParameter("nimi"));
-            
-             request.setAttribute("lista", listaus.lisaaLuokka(nimi, 1));
+                    request.setAttribute("lista", listaus.lisaaLuokka(nimi, tunnus));
              
-             RequestDispatcher dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
-                             dispatcher.forward(request, response);
+                    request.setAttribute("viesti", "Luokka lisätty");
+                    dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
+                    dispatcher.forward(request, response); 
             
             
-             
+             }
             
             
-        } finally {            
-            out.close();
-        }
+                 } finally {            
+                     out.close();
+                 }
         
                  }
+          
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle  
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// LuokkaListausServlet listaa kaikki luokat
 public class TarkeysListausServlet extends HttpServlet {
 
     /**
@@ -34,48 +35,27 @@ public class TarkeysListausServlet extends HttpServlet {
          PrintWriter out = response.getWriter();
          HttpSession session=request.getSession(false);
         
-      //  Kayttaja kirjautunut = (kayttaja)session.getAttribute("kirjautunut");
-        
+        // tarkastetaan onko käyttäjä kirjautunut
+        // listataan kaikki tärkeydet
         if (session.getAttribute("kirjautunut")!=null) {
             
-            
-           // session=request.getSession(true);
-            
-                   String tunnus = request.getParameter("kirjautunut");
-            
-     //       String tunnus = session.getAttribute("kirjautunut");
-            
+              String tunnus = request.getParameter("kirjautunut");
+ 
              Listaus listaus = new Listaus();
-            
-            
+
              request.setAttribute("lista", listaus.listaaTarkeys(tunnus));
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("tarkeydet.jsp");
-            dispatcher.forward(request, response);
+             RequestDispatcher dispatcher = request.getRequestDispatcher("tarkeydet.jsp");
+             dispatcher.forward(request, response);
             
             
             
         }
+        // jos käyttäjä ei ole kirjautunut ohjaan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }
         
         
-        
-     
-       //istaus listaus = new Listaus();
-        
-        
-        
-        //List<Askare> askareet = listaus.listaaAskareet();
-       //request.setAttribute("kissat", askareet);  
-        
-        
-      //equest.setAttribute("lista", listaus.listaaAskareet(tunnus));
-        
-       //
-   //   RequestDispatcher dispatcher = request.getRequestDispatcher("etusivu.jsp");
-    //      dispatcher.forward(request, response);
         
     }
 

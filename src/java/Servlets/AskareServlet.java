@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+
+// AskareServlet hakee askareen tietosivulle yksittäisen askareen tiedot
+
 public class AskareServlet extends HttpServlet {
 
     /**
@@ -34,31 +37,30 @@ public class AskareServlet extends HttpServlet {
         int id;
         
          HttpSession session=request.getSession(false);
-
+            
+         // tarkistaa, että käyttäjä on kirjautunut, 
+         // jonka jälkeen palauttaa yksittäisen askareen tiedot askareen sivulle
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-             id = Integer.parseInt(idParam);
+             try {
+                id = Integer.parseInt(idParam);
              
-             Listaus listaus = new Listaus();
+                Listaus listaus = new Listaus();
             
-            
-             request.setAttribute("lista", listaus.etsiAskare(id));
-             
-            // request.setAttribute("askare", new Listaus().etsiAskare(id));
-
-             RequestDispatcher dispatcher = request.getRequestDispatcher("askare.jsp");
+                request.setAttribute("lista", listaus.etsiAskare(id));
+                RequestDispatcher dispatcher = request.getRequestDispatcher("askare.jsp");
                              dispatcher.forward(request, response);
              
             
             
-        } finally {            
-            out.close();
-        }
+                 } finally {            
+                    out.close();
+                 }
         
-         }
+            }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle  
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

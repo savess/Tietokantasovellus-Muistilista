@@ -16,7 +16,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// poistaa tietyn askareen tietokannasta
+
 public class PoistaAskare extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -34,39 +37,37 @@ public class PoistaAskare extends HttpServlet {
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
         int id;
+        HttpSession session=request.getSession(false);
         
-                
-         HttpSession session=request.getSession(false);
-
+          // tarkastetaan onko käyttäjä kirjautunut
+          // poistetaan askare tietokannasta
+          // näytetään viesti onnistuneesta poistosta Etusivulle siirryttäessä
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-            id = Integer.parseInt(idParam);
+                try {
+                    id = Integer.parseInt(idParam);
+                        
+                    Listaus listaus = new Listaus();
+                    Askare askare = new Askare();
+            
+                    String nimi = request.getParameter("nimi");
+                    askare.setNimi(request.getParameter("nimi"));
+            
+                    request.setAttribute("lista", listaus.poistaAskare(id));
+                    request.setAttribute("viesti", "Askare poistettu");
+                    dispatcher = request.getRequestDispatcher("Etusivu");
+                    dispatcher.forward(request, response); 
             
             
-             Listaus listaus = new Listaus();
-            Askare askare = new Askare();
             
-            String nimi = request.getParameter("nimi");
-            
-            askare.setNimi(request.getParameter("nimi"));
-            
-             request.setAttribute("lista", listaus.poistaAskare(id));
-             
-             RequestDispatcher dispatcher = request.getRequestDispatcher("Etusivu");
-                             dispatcher.forward(request, response);
-            
-            
-             
-            
-            
-        } finally {            
-            out.close();
-        }
+             } finally {            
+                out.close();
+            }
         
                  }
+         // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

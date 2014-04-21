@@ -4,6 +4,9 @@ package Models;
  *
  * @author saves
  */
+
+// Askareen konstruktorit ja getterit sekä setterit
+
 public class Askare {
     
     private int aid;

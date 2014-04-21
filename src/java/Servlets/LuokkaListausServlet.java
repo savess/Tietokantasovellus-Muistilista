@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// LuokkaListausServlet listaa kaikki luokat
 public class LuokkaListausServlet extends HttpServlet {
 
     /**
@@ -30,31 +31,24 @@ public class LuokkaListausServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession session=request.getSession(false);
         
-      //  Kayttaja kirjautunut = (kayttaja)session.getAttribute("kirjautunut");
-        
+        // tarkastetaan onko käyttäjä kirjautunut
+        // listataan kaikki luokat
         if (session.getAttribute("kirjautunut")!=null) {
-            
-            
-           // session=request.getSession(true);
-            
-                   String tunnus = request.getParameter("kirjautunut");
-            
-     //       String tunnus = session.getAttribute("kirjautunut");
-            
+
+             String tunnus = request.getParameter("kirjautunut");
+
              Listaus listaus = new Listaus();
-            
-            
-             request.setAttribute("lista", listaus.listaaLuokat(tunnus));
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("luokat.jsp");
+
+            request.setAttribute("lista", listaus.listaaLuokat(tunnus));
+            RequestDispatcher dispatcher = request.getRequestDispatcher("luokat.jsp");
             dispatcher.forward(request, response);
             
             
             
         }
+        // jos käyttäjä ei ole kirjautunut ohjaan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

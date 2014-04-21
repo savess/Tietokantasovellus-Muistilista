@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 *
 * @author saves
 */
+// Kirjautuminen kirjaa käyttäjän sisään 
+
 public class Kirjautuminen extends HttpServlet {
     
     private Yhteys yhteys = new Yhteys();
@@ -34,17 +36,16 @@ public class Kirjautuminen extends HttpServlet {
 */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
-
-        
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session=request.getSession(false);
         PrintWriter out = response.getWriter();
+        
         try {
             
               if(session!=null) {
             session.invalidate();
         }
+              
         RequestDispatcher dispatcher;
         
         String tunnus = request.getParameter("tunnus");
@@ -52,50 +53,59 @@ public class Kirjautuminen extends HttpServlet {
         String knimi="";
         Kayttaja kayttaja;
         session = request.getSession(true);
+        
+        
         if(tunnus!=null) {
             kayttaja = new Kayttaja(tunnus,salasana);
+         
+            
         }
         else {
             kayttaja=null;
         }
+        
         if(yhteys.getKayttajanNimi(tunnus)!=null) {
             knimi=yhteys.getKayttajanNimi(tunnus);
         }
+        
+        //käyttäjä tunnistettu oikeaksi ja ohjataan Etusivulle
         if(kayttaja!=null&&yhteys.salasanaJaTunnusOikein(kayttaja.getKayttajatunnus(),kayttaja.getSalasana())) {
-           session.setAttribute("tunnus", tunnus);
+            session.setAttribute("tunnus", tunnus);
             session.setAttribute("nimi", knimi);
-            
             session.setAttribute("kirjautunut", tunnus);
             
-           
             response.sendRedirect("Etusivu");
         }
-       
+        
+        //jos käyttäjä ei syötä mitään: virheviesti
         else if ((kayttaja == null || tunnus.equals("")) && (salasana == null || salasana.equals(""))) {
-    request.setAttribute("virheViesti", "Et syöttänyt mitään");
+            request.setAttribute("virheViesti", "Et syöttänyt mitään");
             dispatcher = request.getRequestDispatcher("kirjautuminen.jsp");
             dispatcher.forward(request, response);}
         
+        //jos käyttäjä ei syötä käyttäjää: virheviesti
         else if (kayttaja == null || tunnus.equals("")) {
-    request.setAttribute("virheViesti", "Et syöttänyt käyttäjää");
+            request.setAttribute("virheViesti", "Et syöttänyt käyttäjää");
             dispatcher = request.getRequestDispatcher("kirjautuminen.jsp");
             dispatcher.forward(request, response);
   }
-        
+        //jos käyttäjä ei syötä salasanaa: virheviesti
          else if (salasana == null || salasana.equals("")) {
-    request.setAttribute("virheViesti", "Et syöttänyt salasanaa");
+            request.setAttribute("virheViesti", "Et syöttänyt salasanaa");
             dispatcher = request.getRequestDispatcher("kirjautuminen.jsp");
             dispatcher.forward(request, response);
   }
         
         
         
-        
+        //jos käyttäjä söttää virheellisiä tietoja: virheviesti
         else if(kayttaja!=null&&!yhteys.salasanaJaTunnusOikein(kayttaja.getKayttajatunnus(),kayttaja.getSalasana())) {
             request.setAttribute("virheViesti", "Syötit virheellisen tunnuksen tai salasanan");
             dispatcher = request.getRequestDispatcher("kirjautuminen.jsp");
             dispatcher.forward(request, response);
         }
+        
+        
         else {
             dispatcher = request.getRequestDispatcher("kirjautuminen.jsp");
             dispatcher.forward(request, response);

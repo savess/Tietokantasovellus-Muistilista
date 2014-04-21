@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// ListausServlet listaa kaikki käyttäjän askareet
+
 public class ListausServlet extends HttpServlet {
 
     /**
@@ -30,51 +32,29 @@ public class ListausServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         HttpSession session=request.getSession(false);
-        
-      //  Kayttaja kirjautunut = (kayttaja)session.getAttribute("kirjautunut");
-        
+     
+        // tarkistetaan onko käyttäjä kirjautunut
+        // listataan käyttäjän askareet
         if (session.getAttribute("kirjautunut")!=null) {
             
-            
-           // session=request.getSession(true);
-            
-                   String tunnus = request.getParameter("kirjautunut");
-            
-     //       String tunnus = session.getAttribute("kirjautunut");
-            
+             String tunnus = (String) session.getAttribute("tunnus");
              Listaus listaus = new Listaus();
             
-            
              request.setAttribute("lista", listaus.listaaAskareet(tunnus));
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher("etusivu.jsp");
-            dispatcher.forward(request, response);
+             RequestDispatcher dispatcher = request.getRequestDispatcher("etusivu.jsp");
+             dispatcher.forward(request, response);
             
             
             
         }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }
         
         
-        
-     
-       //istaus listaus = new Listaus();
-        
-        
-        
-        //List<Askare> askareet = listaus.listaaAskareet();
-       //request.setAttribute("kissat", askareet);  
-        
-        
-      //equest.setAttribute("lista", listaus.listaaAskareet(tunnus));
-        
-       //
-   //   RequestDispatcher dispatcher = request.getRequestDispatcher("etusivu.jsp");
-    //      dispatcher.forward(request, response);
+       
         
     }
 

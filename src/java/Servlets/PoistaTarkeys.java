@@ -15,7 +15,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// poistaa tietyn tärkeyden tietokannasta
+
 public class PoistaTarkeys extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -32,40 +35,38 @@ public class PoistaTarkeys extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
-        int id;
-        
-                
-         HttpSession session=request.getSession(false);
-
+        int id;    
+        HttpSession session=request.getSession(false);
+          
+          // tarkastetaan onko käyttäjä kirjautunut
+          // poistetaan tärkeys tietokannasta
+          // näytetään viesti onnistuneesta poistosta tärkeyksienlistaukseen siirryttäessä
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-            id = Integer.parseInt(idParam);
+                try {
+                    id = Integer.parseInt(idParam);
             
+                    Listaus listaus = new Listaus();
+                    Luokka luokka = new Luokka();
             
-             Listaus listaus = new Listaus();
-            Luokka luokka = new Luokka();
+                    String nimi = request.getParameter("nimi");
+                    luokka.setNimi(request.getParameter("nimi"));
             
-            String nimi = request.getParameter("nimi");
+                    request.setAttribute("lista", listaus.poistaTarkeys(id));
+                    request.setAttribute("viesti", "Tärkeys poistettu");
+                    dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                    dispatcher.forward(request, response); 
             
-            luokka.setNimi(request.getParameter("nimi"));
+
             
-             request.setAttribute("lista", listaus.poistaTarkeys(id));
-             
-             RequestDispatcher dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
-                             dispatcher.forward(request, response);
-            
-            
-             
-            
-            
-        } finally {            
-            out.close();
-        }
+            } finally {            
+                out.close();
+            }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

@@ -15,7 +15,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// poistaa tietyn luokan tietokannasta
+
 public class PoistaLuokka extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -32,40 +35,41 @@ public class PoistaLuokka extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
-        int id;
-        
-                
-         HttpSession session=request.getSession(false);
+        int id;     
+        HttpSession session=request.getSession(false);
 
+          // tarkastetaan onko käyttäjä kirjautunut
+          // poistetaan luokka tietokannasa
+          // näytetään viesti onnistuneesta poistosta luokkienlistaukseen siirryttäessä
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-            id = Integer.parseInt(idParam);
+            try {
+                id = Integer.parseInt(idParam);
             
             
-             Listaus listaus = new Listaus();
-            Luokka luokka = new Luokka();
+                Listaus listaus = new Listaus();
+                Luokka luokka = new Luokka();
             
-            String nimi = request.getParameter("nimi");
+                String nimi = request.getParameter("nimi");
+                luokka.setNimi(request.getParameter("nimi"));
             
-            luokka.setNimi(request.getParameter("nimi"));
+                request.setAttribute("lista", listaus.poistaLuokka(id)); 
+                request.setAttribute("viesti", "Luokka poistettu");
+                dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
+                dispatcher.forward(request, response); 
             
-             request.setAttribute("lista", listaus.poistaLuokka(id));
+            
              
-             RequestDispatcher dispatcher = request.getRequestDispatcher("LuokkaListausServlet");
-                             dispatcher.forward(request, response);
             
             
-             
-            
-            
-        } finally {            
-            out.close();
-        }
+            } finally {            
+                out.close();
+            }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

@@ -16,7 +16,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// MuokkaaTarkeytta 2 muokkaa tärkeyttä tietokannassa
+
 public class MuokkaaTarkeytta2 extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -34,44 +37,61 @@ public class MuokkaaTarkeytta2 extends HttpServlet {
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
         int id;
-        
-                
-         HttpSession session=request.getSession(false);
+        HttpSession session=request.getSession(false);
 
+           // tarkastetaan onko käyttäjä kirjautunut
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-            id = Integer.parseInt(idParam);
+                try {
+                     id = Integer.parseInt(idParam);
+                     
+                    Listaus listaus = new Listaus();
+                    Tarkeys tarkeys = new Tarkeys();
             
+                    String selite = request.getParameter("selite");
+                    tarkeys.setSelite(request.getParameter("selite"));
             
-             Listaus listaus = new Listaus();
-            Tarkeys tarkeys = new Tarkeys();
+                    String arvo = request.getParameter("arvo");
+                    tarkeys.setArvo(request.getParameter("arvo"));
             
-            String selite = request.getParameter("selite");
+                        // jos ei arvoa eikä selitettä: virheviesti
+                        if  ((arvo == null || arvo.equals("")) && (selite == null || selite.equals(""))) {
+                        request.setAttribute("virheViesti", "Ei arvoa eikä selitettä, muokkaus epäonnistui");
+                        dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                        dispatcher.forward(request, response);}
+                        
+                        // jos ei arvoa: virheviesti 
+                        else if ((arvo == null || arvo.equals(""))) {
+                        request.setAttribute("virheViesti", "Ei arvoa, muokkaus epäonnistui");
+                        dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                        dispatcher.forward(request, response);}
+                        
+                        // jos ei selitettä: virheviesti
+                        else if ((selite == null || selite.equals("") && arvo!=null)) {
+                        request.setAttribute("virheViesti", "Ei selitettä, muokkaus epäonnistui");
+                        dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                        dispatcher.forward(request, response);}
             
-            tarkeys.setSelite(request.getParameter("selite"));
+                        // jos annetaan arvo ja selite muokataan tärkeyttä tietokantaan 
+                        // viesti onnistuneesta muokkauksesta tärkeyslistaukseen siirryttäessä
+                        else if ((arvo!=null && selite!=null )){
+                        request.setAttribute("lista", listaus.muokkaaTarkeytta(arvo, selite, id));
+                        request.setAttribute("viesti", "Tärkeyttä muokattu");
+                        dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                        dispatcher.forward(request, response); 
             
-            String arvo = request.getParameter("arvo");
-            
-            tarkeys.setArvo(request.getParameter("arvo"));
-            
-            
-             request.setAttribute("lista", listaus.muokkaaTarkeytta(arvo, selite, id));
+             }
              
-             RequestDispatcher dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
-                             dispatcher.forward(request, response);
             
             
-             
-            
-            
-        } finally {            
-            out.close();
-        }
+             } finally {            
+                    out.close();
+                }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

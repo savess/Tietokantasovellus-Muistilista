@@ -1,10 +1,8 @@
 package Servlets;
 
-import Models.Askare;
 import Models.Listaus;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,9 +14,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
-// LisaaAskareApu hakee luokat ja tärkeydet lisäyssivun alasvetovalikoihin
+// MuokkaaAskaretta hakee luokat ja tärkeydet muokkausivun alasvetovalikkoihin
 
-    public class LisaaAskareApu extends HttpServlet {
+public class MuokkaaAskaretta extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -32,36 +30,44 @@ import javax.servlet.http.HttpSession;
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String idParam = request.getParameter("id");
+        int id;   
         HttpSession session=request.getSession(false);
-        
-    
-        // tarkastetaan, että käyttäjä kirjautunut
-        // haetaan luokkien ja tärkyksien tiedot,
-        // jotka viedään lisäysivun alasvetovalikoihin
-        
-        if (session.getAttribute("kirjautunut")!=null) {
-            
-             String tunnus = request.getParameter("kirjautunut");
-             Listaus listaus = new Listaus();
 
-             request.setAttribute("lista", listaus.listaaTarkeys(tunnus));
-             request.setAttribute("listaa", listaus.listaaLuokat(tunnus));
+          // tarkasteaan onko käyttäjä kirjautunut
+          // haetaan luokkien ja tärkyksien tiedot,
+         // jotka viedään muokkausivun alasvetovalikoihin
+          if (session.getAttribute("kirjautunut")!=null) {
+
+            String tunnus = request.getParameter("kirjautunut");
         
-            RequestDispatcher dispatcher = request.getRequestDispatcher("askareenlisays.jsp");
-            dispatcher.forward(request, response);
+                try {
+                    id = Integer.parseInt(idParam);
+             
+                    Listaus listaus = new Listaus();
             
             
+                    request.setAttribute("lista", listaus.etsiAskare(id));
+                    request.setAttribute("lista1", listaus.listaaTarkeys(tunnus));
+                    request.setAttribute("listaa", listaus.listaaLuokat(tunnus));
+
+                     RequestDispatcher dispatcher = request.getRequestDispatcher("askaremuokkaus.jsp");
+                     dispatcher.forward(request, response);
+                 
             
-        }
+            } finally {            
+                    out.close();
+             }
         
-        // jos käyttäjä ei ole krijautunut ohjataan krijautumissivulle
+                 }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle 
         else  {
                 response.sendRedirect("Kirjautuminen");
             }
-        
-     
     }
+          
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -104,4 +110,3 @@ import javax.servlet.http.HttpSession;
         return "Short description";
     }// </editor-fold>
 }
-

@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 *
 * @author saves
 */
+//YhteysTesti on testi tietokantayhteden toiminnasta
 public class YhteysTesti extends HttpServlet {
     
-    private Yhteys db = new Yhteys();
+ private Yhteys db = new Yhteys();
  public YhteysTesti(){
      
  }
@@ -35,6 +36,7 @@ public class YhteysTesti extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        //hakee tietokannasta käyttäjän nimen jonka tunnus on 1001
         try {
             /* TODO output your page here. You may use following sample code. */
             out.println("<html>");

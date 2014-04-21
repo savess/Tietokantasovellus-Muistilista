@@ -16,7 +16,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// lisää tärkeyden tietokantaan
+
 public class LisaaTarkeys extends HttpServlet {
+    private RequestDispatcher dispatcher;
 
     /**
      * Processes requests for both HTTP
@@ -37,41 +40,58 @@ public class LisaaTarkeys extends HttpServlet {
         
                 
          HttpSession session=request.getSession(false);
-
+          
+         // tarkastetaan onko käyttäjä kirjautunut
           if (session.getAttribute("kirjautunut")!=null) {
 
-            String tunnus = request.getParameter("kirjautunut");
+          String tunnus = (String) session.getAttribute("tunnus");
         
-        try {
+              try {
+            
+                    Listaus listaus = new Listaus();
+                    Tarkeys tarkeys = new Tarkeys();
+            
+                    String selite = request.getParameter("selite");
+                    tarkeys.setSelite(request.getParameter("selite"));
+            
+                    String arvo = request.getParameter("arvo");
+                    tarkeys.setArvo(request.getParameter("arvo"));
+                    
+                    // jos ei anneta arvoa eikä selitettä: virheviesti
+                    if  ((arvo == null || arvo.equals("")) && (selite == null || selite.equals(""))) {
+                        request.setAttribute("virheViesti", "Et antanut arvoa etkä selitettä, lisäys epäonnistui");
+                        dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                        dispatcher.forward(request, response);}
+                    
+                    //jos ei anneta arvoa: virheviesti
+                    else if ((arvo == null || arvo.equals(""))) {
+                            request.setAttribute("virheViesti", "Et antanut arvoa, lisäys epäonnistui");
+                            dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                            dispatcher.forward(request, response);}
+                    
+                    //jos ei anneta selitettä: virheviesti
+                    else if ((selite == null || selite.equals("") && arvo!=null)) {
+                            request.setAttribute("virheViesti", "Et antanut selitettä, lisäys epäonnistui");
+                            dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                            dispatcher.forward(request, response);}
+            
+                   // jos annetaan sekä arvo että selite lisätään tärkeys tietokantaan
+                   // annetaan viesti onnistuneesta lisäyksestä tärkeyslistaus sivulle siirrytäessä
+                   else if ((arvo!=null && selite!=null )){
+                            request.setAttribute("lista", listaus.lisaaTarkeys(arvo, selite, tunnus));
+                            request.setAttribute("viesti", "Tärkeys lisätty");
+                            dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
+                            dispatcher.forward(request, response); 
+            
+                         }
             
             
-            
-             Listaus listaus = new Listaus();
-            Tarkeys tarkeys = new Tarkeys();
-            
-            String selite = request.getParameter("selite");
-            
-            tarkeys.setSelite(request.getParameter("selite"));
-            
-             String arvo = request.getParameter("arvo");
-            
-            tarkeys.setArvo(request.getParameter("arvo"));
-            
-            
-             request.setAttribute("lista", listaus.lisaaTarkeys(arvo, selite, 1));
-             
-             RequestDispatcher dispatcher = request.getRequestDispatcher("TarkeysListausServlet");
-                             dispatcher.forward(request, response);
-            
-            
-             
-            
-            
-        } finally {            
-            out.close();
-        }
+                 } finally {            
+                        out.close();
+                }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

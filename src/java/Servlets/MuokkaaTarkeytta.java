@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// MuokkaaTarkytta hakee tietyn tärkeyden tiedot muokkaussivulle
+
 public class MuokkaaTarkeytta extends HttpServlet {
 
     /**
@@ -31,38 +33,32 @@ public class MuokkaaTarkeytta extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
-        int id;
-        
-                
-         HttpSession session=request.getSession(false);
-
+        int id;       
+        HttpSession session=request.getSession(false);
+          
+          // tarkastetaan onko käyttäjä kirjautunut
+          // haetaan tietyn tärkeyden tiedot muokkaussivulle
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-             id = Integer.parseInt(idParam);
+                try {
+                    id = Integer.parseInt(idParam);
              
-             Listaus listaus = new Listaus();
-            
-            
-             request.setAttribute("lista", listaus.etsiTarkeys(id));
-             
-           
+                    Listaus listaus = new Listaus();
 
-             RequestDispatcher dispatcher = request.getRequestDispatcher("tarkeydenmuokkaus.jsp");
-                             dispatcher.forward(request, response);
+                    request.setAttribute("lista", listaus.etsiTarkeys(id));
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("tarkeydenmuokkaus.jsp");
+                    dispatcher.forward(request, response);
                              
-                             
-                             
-             
+               
             
-            
-        } finally {            
-            out.close();
-        }
+                } finally {            
+                    out.close();
+                }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

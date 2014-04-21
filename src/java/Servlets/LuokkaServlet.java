@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// LuokkaServlet hakee luokan tietosivulle yksittäisen luokan tiedot
 public class LuokkaServlet extends HttpServlet {
 
     /**
@@ -31,35 +32,32 @@ public class LuokkaServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
-        int id;
-        
-                
-         HttpSession session=request.getSession(false);
+        int id; 
+        HttpSession session=request.getSession(false);
 
+          // tarkistaa, että käyttäjä on kirjautunut, 
+         // jonka jälkeen palauttaa yksittäisen luokan tiedot luokan sivulle
           if (session.getAttribute("kirjautunut")!=null) {
 
             String tunnus = request.getParameter("kirjautunut");
         
-        try {
-             id = Integer.parseInt(idParam);
-             
-             Listaus listaus = new Listaus();
-            
-            
-             request.setAttribute("lista", listaus.etsiLuokka(id));
-             
-            // request.setAttribute("askare", new Listaus().etsiAskare(id));
+                 try {
+                         id = Integer.parseInt(idParam);
 
-             RequestDispatcher dispatcher = request.getRequestDispatcher("luokka.jsp");
-                             dispatcher.forward(request, response);
+                         Listaus listaus = new Listaus();
+                      
+                         request.setAttribute("lista", listaus.etsiLuokka(id));
+                         RequestDispatcher dispatcher = request.getRequestDispatcher("luokka.jsp");
+                         dispatcher.forward(request, response);
              
             
             
-        } finally {            
-            out.close();
-        }
+                } finally {            
+                    out.close();
+                }
         
                  }
+        // jos käyttäjä ei ole kirjautunut ohjataan kirjautumissivulle 
         else  {
                 response.sendRedirect("Kirjautuminen");
             }

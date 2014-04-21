@@ -13,6 +13,7 @@ public class Kayttaja {
     private String salasana;
     private String nimi;
     private int kid;
+    private int acount;
 
     public Kayttaja() {
     }
@@ -21,6 +22,7 @@ public class Kayttaja {
         this.tunnus = tunnus;
         this.salasana = salasana;
     }
+    
 
     public Kayttaja(String tunnus, String salasana, String nimi, int kid) {
         this.tunnus = tunnus;
@@ -30,6 +32,14 @@ public class Kayttaja {
         
     }
 
+       public Kayttaja(String tunnus, String salasana, String nimi, int kid, int acount) {
+        this.tunnus = tunnus;
+        this.salasana = salasana;
+        this.nimi = nimi;
+        this.kid = kid;
+        this.acount = acount;
+        
+    }
     
 
     
@@ -48,6 +58,11 @@ public class Kayttaja {
      
      public int getKid() {
         return kid;
+    }
+     
+         
+     public int getAcount() {
+        return acount;
     }
 
     public void setKayttajatunnus(String tunnus) {

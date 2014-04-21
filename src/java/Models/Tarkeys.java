@@ -4,6 +4,8 @@ package Models;
  *
  * @author saves
  */
+// tärkeyden kontruktorit ja getterit sekä setterit
+
 
 public class Tarkeys{
     private String selite;

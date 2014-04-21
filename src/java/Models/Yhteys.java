@@ -3,10 +3,13 @@ package Models;
  *
  * @author saves
  */
+
+
 import java.sql.*;
+import javax.servlet.http.HttpServletRequest;
 
 // Luo tietokanta yhteyden ja muutamat metodit
-// @author saves
+
 
 public class Yhteys {
 
@@ -85,4 +88,27 @@ public class Yhteys {
         kysely.close();
         conn.close();
     }
+      
+      //muuttaa merkkijonon kokonaisluvuksi palautaIntArvo avulla
+      
+       public int haeIntArvo(String param, HttpServletRequest request) {
+        return palautaIntArvo(request.getParameter(param));
+    }
+    
+    public int palautaIntArvo(String param) {
+        int arvo;
+        
+        try {
+            arvo = Integer.parseInt(param);
+        }
+       catch(NumberFormatException e) {
+            arvo = 0;
+        }
+        
+        return arvo;
+    }
+ 
+    
+    
+    
 }

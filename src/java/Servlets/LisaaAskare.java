@@ -2,8 +2,11 @@ package Servlets;
 
 import Models.Askare;
 import Models.Listaus;
+import Models.Kayttaja;
 import Models.Luokka;
 import Models.Tarkeys;
+import Models.Yhteys;
+import Models.Yhteys;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -17,8 +20,11 @@ import javax.servlet.http.HttpSession;
  *
  * @author saves
  */
+// lisää uuden askareen tietokantaan 
+
 public class LisaaAskare extends HttpServlet {
     private String lnimi;
+    private RequestDispatcher dispatcher;
 
 
     /**
@@ -33,67 +39,67 @@ public class LisaaAskare extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String idParam = request.getParameter("id");
         int id;
-       
-       
-        
+      
+          Yhteys yhteys = new Yhteys();
+          Listaus listaus = new Listaus();  
+          Askare askare = new Askare();
+          Kayttaja kayttaja = new Kayttaja();
+            
+            int tarkeysid = yhteys.haeIntArvo("tarkeys", request);
+            int luokkaid = yhteys.haeIntArvo("luokka", request);
+            
+            String nimi = request.getParameter("nimi");
+            askare.setNimi(request.getParameter("nimi"));
+           
         
                 
          HttpSession session=request.getSession(false);
 
+         // tarkistaa onko käyttäjä kirjautunut
           if (session.getAttribute("kirjautunut")!=null) {
 
-            String tunnus = request.getParameter("kirjautunut");
-        
-        try {
-            
-       
-       
+            String tunnus = (String) session.getAttribute("tunnus");
             
             
             
-             Listaus listaus = new Listaus();
-            Askare askare = new Askare();
-            
-            String nimi = request.getParameter("nimi");
-            
-            askare.setNimi(request.getParameter("nimi"));
-            
-            Tarkeys tarkeys = new Tarkeys();
-            
-            String selite = request.getParameter("selite");
-            
-            tarkeys.setSelite(request.getParameter("selite"));
-            
-            Luokka luokkaa = new Luokka();
-            
-            String luokka = request.getParameter("lnimi");
-            
-            luokkaa.setNimi(request.getParameter("lnimi"));
+                     try {
             
             
-             request.setAttribute("lista", listaus.lisaaAskare(nimi,"tarkea","koti",1));
-             
-             RequestDispatcher dispatcher = request.getRequestDispatcher("Etusivu");
-                             dispatcher.forward(request, response);
+                        //jos askaretta lisättäessä ei anneta nimeä: virheviesti 
+                        if ((nimi == null || nimi.equals(""))) {
+                        request.setAttribute("virheViesti", "Et antanut askareelle nimeä, lisäys epäonnistui");
+                        dispatcher = request.getRequestDispatcher("Etusivu");
+                        dispatcher.forward(request, response);}
             
             
-             
+                        // jos nimi annetaan, askare lisätään tietokantaan
+                        // näytetään viesti onnistuneesta lisäyksestä siirryttäessä Etusivulle
+                        else if ((nimi!=null)){
+                        request.setAttribute("lista", listaus.lisaaAskare(nimi, tarkeysid, luokkaid, tunnus));             
+                        request.setAttribute("viesti", "Askare lisätty");
+                        dispatcher = request.getRequestDispatcher("Etusivu");
+                        dispatcher.forward(request, response);  }
             
             
-        } finally {            
-            out.close();
-        }
+            
+                } finally {            
+                out.close();
+                }
         
                  }
+        // jos käyttjä ei ole kirjautunut siirrytään kirjatumissivulle  
         else  {
                 response.sendRedirect("Kirjautuminen");
             }
     }
-          
+     
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
